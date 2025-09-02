@@ -60,14 +60,15 @@ namespace csi281 {
   // Get the average (mean) temperature of all time for this city
   // by averaging every CityYear.
   float CityTemperatureData::getAllTimeAverage() const {
-    // YOUR CODE HERE
+    // Simple average calculator
 
       float total = 0;
-
+    // total all average temperatures in the list
     for (int i = 0; i < count(); i++)
     {
         total += _data[i].averageTemperature;
     }
+    //find the average of the averages
     total /= count();
 
     return total;
@@ -75,11 +76,27 @@ namespace csi281 {
 
   // Sum all of the days below 32 for all years.
   int CityTemperatureData::getTotalDaysBelow32() const {
-    // YOUR CODE HERE
+
+      int total = 0;
+
+      //traverses the list and totals all numDaysBelow32 values
+      for (int i = 0; i < count(); i++)
+      {
+        total += _data[i].numDaysBelow32;
+      }
+
+      return total;
   }
 
   // Sum all of the days above 90 for all years.
   int CityTemperatureData::getTotalDaysAbove90() const {
-    // YOUR CODE HERE
+    int total = 0;
+
+    // traverses the list and totals all numDaysAbove90 values
+    for (int i = 0; i < count(); i++) {
+      total += _data[i].numDaysAbove90;
+    }
+
+    return total;
   }
 }  // namespace csi281
