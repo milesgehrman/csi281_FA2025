@@ -112,5 +112,22 @@ namespace csi281 {
   // create an array of CityYear instances to pass to the CityTemperatureData constructor
   // when the CityTemperatureData is created, it will take ownership of the array
   CityTemperatureData* readCity(string cityName, string fileName, int startLine, int endLine) {
+
+      ifstream dataFile;
+    dataFile.open(fileName);
+
+    int lineCounter = 0;
+    // I'm considering making this thing throw exceptions out of spite
+    while (lineCounter <= startLine)
+    {
+      lineCounter++;
+    }
+    while (lineCounter <= endLine)
+    {
+      lineCounter++;
+    }
+
+    dataFile.close();
+
   }
 }  // namespace csi281
