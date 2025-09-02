@@ -74,7 +74,32 @@ namespace csi281 {
   // and the readCell() functions above
   // You'll also want to construct a CityYear from what you have read from the file
   CityYear readLine(ifstream &file) {
-    // YOUR CODE HERE
+    
+    string temp;
+
+    //put it into a string stream
+    getline(file, temp);
+    // I was having trouble figuring out how to get data into an istringstream,
+    // and found a solution at https://cboard.cprogramming.com/cplusplus-programming/79024-initializing-istringstream.html
+    istringstream reader(temp);
+    
+    CityYear tempCityYear;
+
+    // Assuming the data read will be in the same format as "tempdata.csv",
+    // I'll need to ignore the station and name
+    reader.ignore(INT_MAX, ',');
+    reader.ignore(INT_MAX, ',');
+
+    tempCityYear.year = readIntCell(reader);
+    tempCityYear.numDaysBelow32 = readIntCell(reader);
+    tempCityYear.numDaysAbove90 = readIntCell(reader);
+    tempCityYear.averageTemperature = readFloatCell(reader);
+    tempCityYear.averageMax = readFloatCell(reader);
+    tempCityYear.averageMin = readFloatCell(reader);
+
+    // It feels like I'm doing something wrong by not returning a reference,
+    // but I can't see any other way to do it.
+    return tempCityYear;
   }
 
   // Read city by looking at the specified lines in the CSV
