@@ -113,20 +113,29 @@ namespace csi281 {
   // when the CityTemperatureData is created, it will take ownership of the array
   CityTemperatureData* readCity(string cityName, string fileName, int startLine, int endLine) {
 
+
+      //CityYear tempDataList[(endLine - startLine)];
+
       ifstream dataFile;
     dataFile.open(fileName);
 
-    int lineCounter = 0;
-    // I'm considering making this thing throw exceptions out of spite
-    while (lineCounter <= startLine)
+    if (dataFile.good())
     {
-      lineCounter++;
-    }
-    while (lineCounter <= endLine)
-    {
-      lineCounter++;
-    }
+      int lineCounter = 0;
+      // I'm considering making this thing throw exceptions out of spite
+      //traverses to the start of the given range
+      while (lineCounter < startLine) {
+        dataFile.ignore(INT_MAX, '\n');
+        lineCounter++;
+      }
+      // creates a list of CityYears in the rang
+      while ((lineCounter <= endLine) && !dataFile.eof()) {
 
+        lineCounter++;
+      }
+    } else {
+      cout << "Error opening file!";
+    }
     dataFile.close();
 
   }
