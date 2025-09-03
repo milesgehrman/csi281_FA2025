@@ -115,15 +115,17 @@ namespace csi281 {
 
       CityTemperatureData *result = nullptr;
       CityYear* dataListPtr = nullptr;
-    dataListPtr = new CityYear[(endLine - startLine)];
+    dataListPtr = new CityYear[(endLine - startLine + 1)];
 
       ifstream dataFile;
     dataFile.open(fileName);
 
     if (dataFile.good())
     {
-      int lineCounter = 0;
-      // I'm considering making this thing throw exceptions out of spite... nah
+
+        dataFile.ignore(INT_MAX, '\n'); // ignores the header information in the data
+
+      int lineCounter = 1;
       //traverses to the start of the given range
       while (lineCounter < startLine) {
         dataFile.ignore(INT_MAX, '\n');
@@ -140,7 +142,7 @@ namespace csi281 {
       }
 
       // create the CityTemperatureData object to return
-      result = new CityTemperatureData(cityName, dataListPtr, (endLine - startLine));
+      result = new CityTemperatureData(cityName, dataListPtr, (endLine - startLine + 1));
 
     } else {
       cout << "Error opening file!";
