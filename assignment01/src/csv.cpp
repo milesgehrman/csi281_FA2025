@@ -107,14 +107,15 @@ namespace csi281 {
   // You'll need to read CityYears from the file using readLine() until there
   // is nothing left to read
   // The ifstream method good() may be useful
-  // Make sure to just read between startLine and endLine (inclusive of endLine)
+  // Make sure to just read between startLine and endLine (inclusive of endLine) INCLUSIVE OF STARTLINE TOO (?)
   // Construct a CityTemperatureData and return it
   // create an array of CityYear instances to pass to the CityTemperatureData constructor
   // when the CityTemperatureData is created, it will take ownership of the array
   CityTemperatureData* readCity(string cityName, string fileName, int startLine, int endLine) {
 
-
-      //CityYear tempDataList[(endLine - startLine)];
+      CityTemperatureData *result = nullptr;
+      CityYear* dataListPtr = nullptr;
+    dataListPtr = new CityYear[(endLine - startLine)];
 
       ifstream dataFile;
     dataFile.open(fileName);
@@ -122,21 +123,35 @@ namespace csi281 {
     if (dataFile.good())
     {
       int lineCounter = 0;
-      // I'm considering making this thing throw exceptions out of spite
+      // I'm considering making this thing throw exceptions out of spite... nah
       //traverses to the start of the given range
       while (lineCounter < startLine) {
         dataFile.ignore(INT_MAX, '\n');
         lineCounter++;
       }
       // creates a list of CityYears in the rang
+      int i = 0; // iterator to handle putting things in the array
       while ((lineCounter <= endLine) && !dataFile.eof()) {
 
+          dataListPtr[i] = readLine(dataFile);
+
         lineCounter++;
+        i++;
       }
+
+      // create the CityTemperatureData object to return
+      result = new CityTemperatureData(cityName, dataListPtr, (endLine - startLine));
+
     } else {
       cout << "Error opening file!";
+      delete[] dataListPtr;
+      dataListPtr = nullptr;
     }
     dataFile.close();
 
+
+
+    //Pretty sure I need to bank on the deconstructor handling deleting the list I give to _data
+    return result;
   }
 }  // namespace csi281
