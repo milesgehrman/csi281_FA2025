@@ -37,6 +37,12 @@ namespace csi281 {
   // or -1 if the key is never found
   template <typename T> int linearSearch(T array[], const int length, const T key) {
     // YOUR CODE HERE
+
+      for (int i = 0; i < length; i++)
+      {
+
+      }
+
   }
 
   // Returns the first location of the found key
