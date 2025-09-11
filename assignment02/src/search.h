@@ -54,8 +54,26 @@ namespace csi281 {
   template <typename T> int binarySearch(T array[], const int length, const T key) {
     // YOUR CODE HERE
 
+      int low = 0, high = length - 1, mid;
 
-
+      do
+      {
+        mid = (low + high) / 2;
+        if (array[mid] == key)
+        {
+          return mid;
+        } 
+        else if (array[mid] < key) 
+        {
+          high = mid - 1;
+        }
+        else
+        {
+          low = mid + 1;
+        }
+      }
+      while (mid != high);
+      return -1;
 
   }
 }  // namespace csi281
