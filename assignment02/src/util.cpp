@@ -45,9 +45,15 @@ namespace csi281 {
       random_device rd;
       srand(unsigned(rd()));
 
+      int *theArray = nullptr;
+      theArray = new int[length];
 
+      for (int i = 0; i < length; i++)
+      {
+        theArray[i] = ((rand() % (max - min)) + min);
+      }
 
-
+      return theArray;
   }
 
   // Finds the speed of linear versus binary search
@@ -69,20 +75,43 @@ namespace csi281 {
     int *testArray = randomIntArray(length, 0, length);
     int *testKeys = randomIntArray(numTests, 0, length);
 
+    nanoseconds linearSearchSpeed, binarySearchSpeed;
+    long long tempTotalNanoS = 0;
+
     using namespace std::chrono;
 
     // Do numTests linear searches and find the average time
     // Put the result in a variable linearSearchSpeed
 
-    // YOUR CODE HERE
+    
+    for (int i = 0; i < numTests; i++)
+    {
+      auto start = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+      linearSearch(testArray, length, testKeys[i]);
+      auto end = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+      tempTotalNanoS += end - start;
+    }
+    linearSearchSpeed = nanoseconds(tempTotalNanoS / numTests);
+    tempTotalNanoS = 0;
 
     // Do numTests binary searches and find the average time
     // Put the result in a variable binarySearchSpeed
 
-    // YOUR CODE HERE
+    
+    for (int i = 0; i < numTests; i++) {
+      auto start = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+      binarySearch(testArray, length, testKeys[i]); 
+      // ^^ This may not be accurate as we are not required to actually sort 
+      // the list before running the binary search
+      auto end = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+      tempTotalNanoS += end - start;
+    }
+    binarySearchSpeed = nanoseconds(tempTotalNanoS / numTests);
 
     delete testArray;
     delete testKeys;
+
+    testArray = testKeys = nullptr;
 
     return pair<nanoseconds, nanoseconds>(linearSearchSpeed, binarySearchSpeed);
   }

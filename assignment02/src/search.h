@@ -63,7 +63,7 @@ namespace csi281 {
         {
           return mid;
         } 
-        else if (array[mid] < key) 
+        else if (array[mid] > key) 
         {
           high = mid - 1;
         }
@@ -71,8 +71,7 @@ namespace csi281 {
         {
           low = mid + 1;
         }
-      }
-      while (mid != high);
+      } while ((mid != high) && (high != -1));
       return -1;
 
   }
