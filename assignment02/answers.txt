@@ -1,0 +1,14 @@
+1. O(n) because it runs a set number of instructions for each element in the array
+
+2.Also O(n) because the greatest bottleneck in the function is the linear search.
+
+3. Linear search speed = 10,000 elements * 5 instructions/element = 50,000 instructions
+
+Binary search speed = log2(10,000 elements) * 10 instructions/element 
+					+ 12 * 10,000 * log2(10,000) for the sorting algorithim
+					= approx 516,167 instructions
+
+Not sure if I fully understood the question, but in this scenario with 10,000 elements,
+the linear search is much faster, simply due to the absolutely sluggish sorting algorithim
+
+4. class, struct, long long[2]

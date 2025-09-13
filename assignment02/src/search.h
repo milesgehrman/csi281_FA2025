@@ -36,7 +36,6 @@ namespace csi281 {
   // Returns the first location of the found key
   // or -1 if the key is never found
   template <typename T> int linearSearch(T array[], const int length, const T key) {
-    // YOUR CODE HERE
 
       for (int i = 0; i < length; i++)
       {
@@ -52,26 +51,26 @@ namespace csi281 {
   // Returns the first location of the found key
   // or -1 if the key is never found; assumes a sorted array
   template <typename T> int binarySearch(T array[], const int length, const T key) {
-    // YOUR CODE HERE
 
       int low = 0, high = length - 1, mid;
 
       do
       {
-        mid = (low + high) / 2;
+        mid = (low + high) / 2; //finds the midpoint
         if (array[mid] == key)
         {
           return mid;
         } 
-        else if (array[mid] > key) 
+        else if (array[mid] > key) //shifts high point down if the value found is greater than the key
         {
           high = mid - 1;
         }
-        else
+        else // otherwise, shifts the low point up
         {
           low = mid + 1;
         }
-      } while ((mid != high) && (high != -1));
+      } while ((mid != high) && (high != -1)); // If the search has checked the entire list, it'll exit
+      //this also accounts for a strange case where the high would get stuck at -1 and the mid would be at 0
       return -1;
 
   }

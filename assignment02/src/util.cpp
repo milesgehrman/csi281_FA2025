@@ -43,17 +43,17 @@ namespace csi281 {
   int *randomIntArray(const int length, const int min, const int max) {
     
       random_device rd;
-      srand(unsigned(rd()));
+      srand(unsigned(rd())); // seed the random function
 
       int *theArray = nullptr;
-      theArray = new int[length];
+      theArray = new int[length]; // create a new array
 
-      for (int i = 0; i < length; i++)
+      for (int i = 0; i < length; i++) // populate each slot of the array with a random number
       {
-        theArray[i] = ((rand() % (max - min)) + min);
+        theArray[i] = ((rand() % (max - min)) + min); 
       }
 
-      return theArray;
+      return theArray; //return the pointer to the array
   }
 
   // Finds the speed of linear versus binary search
@@ -76,7 +76,7 @@ namespace csi281 {
     int *testKeys = randomIntArray(numTests, 0, length);
 
     nanoseconds linearSearchSpeed, binarySearchSpeed;
-    long long tempTotalNanoS = 0;
+    long long tempTotalNanoS = 0; // a temp variable to hold the average time since the nanoseconds data type is fussy
 
     using namespace std::chrono;
 
@@ -108,10 +108,10 @@ namespace csi281 {
     }
     binarySearchSpeed = nanoseconds(tempTotalNanoS / numTests);
 
-    delete testArray;
+    delete testArray; // delete the arrays we generated
     delete testKeys;
 
-    testArray = testKeys = nullptr;
+    testArray = testKeys = nullptr; // clean up the pointers for good measure
 
     return pair<nanoseconds, nanoseconds>(linearSearchSpeed, binarySearchSpeed);
   }
