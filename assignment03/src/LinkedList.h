@@ -31,6 +31,8 @@
 #include "Collection.h"
 #include "MemoryLeakDetector.h"
 
+#include <cassert> //This makes the assert function work i guess
+
 using namespace std;
 
 namespace csi281 {
@@ -71,17 +73,30 @@ namespace csi281 {
     T &get(int index) {
       assert(index < count);  // can't insert off end
       assert(index >= 0);     // no negative indices
-                              // YOUR CODE HERE
+      
+      Node *current = head;
+      for (int i = 0; i < index; i++)
+      {
+        current = current->next;
+      }
+      return current->data;
     }
 
     // Insert at the beginning of the collection
-    void insertAtBeginning(const T &item) {
-      // YOUR CODE HERE
+    void insertAtBeginning(const T &item) 
+    { 
+        Node *temp = head;
+        head = new Node(item);
+        head->next = temp;
+      count++;
     }
 
     // Insert at the end of the collection
-    void insertAtEnd(const T &item) {
-      // YOUR CODE HERE
+    void insertAtEnd(const T &item) { 
+        tail->next = new Node(item);
+      tail = tail->next;
+      tail->next = nullptr;
+        count++;
     }
 
     // Insert at a specific index
@@ -113,13 +128,25 @@ namespace csi281 {
     // Remove the item at the beginning of the collection
     void removeAtBeginning() {
       assert(count > 0);
-      // YOUR CODE HERE
+      Node *temp = head;
+      head = temp->next;
+      delete temp;
+      count--;
     }
 
     // Remove the item at the end of the collection
     void removeAtEnd() {
       assert(count > 0);
-      // YOUR CODE HERE
+
+      Node *current = head;
+      for (int i = 0; i < count-1; i++) {
+        current = current->next;
+      }
+
+      delete tail;
+      tail = current->next;
+
+      count--;
     }
 
     // Remove the item at a specific index

@@ -29,7 +29,7 @@
 #define dynamicarray_hpp
 
 #include <algorithm>  // for copy(), min(), move_backward
-                      // for assert()
+#include <cassert>    // for assert()
 
 #include "Collection.h"
 #include "MemoryLeakDetector.h"
