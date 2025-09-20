@@ -42,7 +42,7 @@ namespace csi281 {
     // Erase all the nodes
     ~LinkedList() {
       Node *current = head;
-      while (current != nullptr) {
+      while (current->next != nullptr) {
         Node *last = current;
         current = current->next;
         delete last;
@@ -88,11 +88,17 @@ namespace csi281 {
         Node *temp = head;
         head = new Node(item);
         head->next = temp;
+        if (count == 0) tail = head; // updates tail if list is empty
       count++;
     }
 
     // Insert at the end of the collection
     void insertAtEnd(const T &item) { 
+        if (count == 0) // uses insertAtBeginning if list is empty
+        {
+        insertAtBeginning(item);
+          return;
+        }  
         tail->next = new Node(item);
       tail = tail->next;
       tail->next = nullptr;
@@ -139,12 +145,13 @@ namespace csi281 {
       assert(count > 0);
 
       Node *current = head;
-      for (int i = 0; i < count-1; i++) {
+      while (current->next != nullptr) {
         current = current->next;
       }
 
       delete tail;
-      tail = current->next;
+      tail = current;
+      tail->next = nullptr;
 
       count--;
     }
