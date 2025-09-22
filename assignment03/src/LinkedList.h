@@ -42,7 +42,7 @@ namespace csi281 {
     // Erase all the nodes
     ~LinkedList() {
       Node *current = head;
-      while (current->next != nullptr) {
+      while (current != nullptr) {
         Node *last = current;
         current = current->next;
         delete last;
@@ -145,13 +145,13 @@ namespace csi281 {
       assert(count > 0);
 
       Node *current = head;
-      while (current->next != nullptr) {
+      while (current->next->next != nullptr) {
         current = current->next;
       }
 
       delete tail;
       tail = current;
-      tail->next = nullptr;
+      current->next = nullptr;
 
       count--;
     }
