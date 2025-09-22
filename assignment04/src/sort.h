@@ -36,16 +36,50 @@ using namespace std;
 
 namespace csi281 {
 
+
+    // swaps the data held in val1 and val2
+  template <typename T> void mySwap(T& val1, T& val2) {
+    T temp = val1;
+    val1 = val2;
+    val2 = temp;
+  }
+
   // Performs an in-place ascending sort of *array* of size *length*
   // using the bubble sort algorithm
   template <typename T> void bubbleSort(T array[], const int length) {
-    // YOUR CODE HERE
+    
+    bool loopCheck = true; 
+
+    while (loopCheck) // repeat until
+        loopCheck = false;
+      for (int i = 0; i < length - 1; i++)
+      {
+        if (array[i] > array[i + 1]) {
+          mySwap(array[i], array[i + 1]);
+          loopCheck = true;
+        }
+      }
   }
 
   // Performs an in-place ascending sort of *array* of size *length*
   // using the selection sort algorithm
   template <typename T> void selectionSort(T array[], const int length) {
     // YOUR CODE HERE
+    T minValue = array[0];
+    int minValueLocation = 0;
+
+    for (int j = 0; j < length; j++)
+    {
+      minValue = array[j];
+      for (int i = j; i < length; i++)
+      {
+        if (array[i] > minValue) {
+          minValue = array[i];
+          minValueLocation = i;
+        }
+      }
+      mySwap(array[j], array[minValueLocation]);
+    }
   }
 
   // Performs an in-place ascending sort of *array* of size *length*
@@ -53,6 +87,8 @@ namespace csi281 {
   template <typename T> void insertionSort(T array[], const int length) {
     // YOUR CODE HERE
   }
+
+  
 }  // namespace csi281
 
 #endif /* sort_hpp */
