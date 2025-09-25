@@ -29,6 +29,7 @@
 #define sort_hpp
 
 #include <algorithm>  // for swap()
+#include <iostream> // for printArray()
 
 #include "MemoryLeakDetector.h"
 
@@ -38,10 +39,21 @@ namespace csi281 {
 
 
     // swaps the data held in val1 and val2
+    // I did not realize we had access to swap()
   template <typename T> void mySwap(T& val1, T& val2) {
     T temp = val1;
     val1 = val2;
     val2 = temp;
+  }
+
+  // prints all elements in an array for debugging purposes
+  template <typename T> void printArray(const T array[], const int length)
+  { 
+      cout << "Debug: printing array..." << endl;
+    for (int i = 0; i < length; i++) {
+      cout << array[i] << "     ";
+    }
+      cout << endl;
   }
 
   // Performs an in-place ascending sort of *array* of size *length*
@@ -50,44 +62,58 @@ namespace csi281 {
     
     bool loopCheck = true; 
 
-    while (loopCheck) // repeat until
-        loopCheck = false;
-      for (int i = 0; i < length - 1; i++)
-      {
-        if (array[i] > array[i + 1]) {
+    while (loopCheck) {  // repeat until list is sorted
+      loopCheck = false;
+      for (int i = 0; i < length - 1; i++) {
+        if (array[i] > array[i + 1]) { // if two elements are out of order, swaps them
           mySwap(array[i], array[i + 1]);
-          loopCheck = true;
+          loopCheck = true; // let the outer loop know the loop is not sorted
         }
       }
+    }
   }
 
   // Performs an in-place ascending sort of *array* of size *length*
   // using the selection sort algorithm
   template <typename T> void selectionSort(T array[], const int length) {
-    // YOUR CODE HERE
+    // I DON'T KNOW WHY THIS IS SO MUCH FASTER THAN INSERTION SORT
     T minValue = array[0];
     int minValueLocation = 0;
 
-    for (int j = 0; j < length; j++)
+    for (int j = 0; j < length; j++) // outer loop iterates through the array as we sort indivindiual indicies
     {
       minValue = array[j];
-      for (int i = j; i < length; i++)
+      minValueLocation = j;
+      for (int i = j; i < length; i++) // searches for the minimum value and saves it's location
       {
-        if (array[i] > minValue) {
+        if (array[i] < minValue) { 
           minValue = array[i];
           minValueLocation = i;
         }
       }
-      mySwap(array[j], array[minValueLocation]);
+      mySwap(array[j], array[minValueLocation]); // places minimum value in the correct location
     }
   }
 
+
   // Performs an in-place ascending sort of *array* of size *length*
   // using the insertion sort algorithm
-  template <typename T> void insertionSort(T array[], const int length) {
-    // YOUR CODE HERE
+  template <typename T> void insertionSort(T array[], const int length) 
+  {
+      for (int i = 1; i < length; i++) // increases the minimum index we have to sift through
+      {
+      for (int j = i; j > 0; j--) // moves a selected element down the sorted list
+          {
+            if (array[j] < array[j - 1]) 
+                swap(array[j], array[j - 1]); //swap until the element is sorted
+            else
+             break; // end the traversal early when we reach the correct spot
+          }
+      }
+      
+      // seriously, I have no idea why insertion sort is slower on my computer than selection sort
+      // I even tried copying in the examples in the notes just to test and selection sort was STILL faster
   }
-
   
 }  // namespace csi281
 
