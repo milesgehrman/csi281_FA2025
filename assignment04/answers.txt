@@ -1,0 +1,9 @@
+Miles "Spiders" Gehrman
+
+1. While it can be optimized, bubble sort is usually forced to push all elements one space at a time through the list. Selection sort also does this, but in a much more controlled and eficcient manner.
+
+2. Because once insertion sort finds the correct spot for an element, it terminates the inner loop early and cuts out needing to search through extra elements in the list? I'm not actually sure, my insertion sort was magically not as fast as my selection sort.
+
+3. A custom class would need some enumerated member value (it doesn't NEED to be an enum, but it needs some characteristic to sort by) and it needs overloads for the greater than and less than operators so the sorts can compare different elements.
+
+4. std::sort is faster than our implementations primarily because it's mostly using quicksort which is O(n * log n) compared to our sorts which are O(n^2). (to optimize performance it also uses insertion sort in small parts but quicksort is the main timesaver)
