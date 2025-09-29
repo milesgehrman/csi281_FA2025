@@ -48,16 +48,14 @@ namespace csi281 {
   // NOTE: Your solution MUST use std::inplace_merge
   // http://www.cplusplus.com/reference/algorithm/inplace_merge/
   template <typename T> void mergeSort(T array[], const int start, const int end) {
-    // YOUR CODE HERE
 
-      int midIndex = (end + start) / 2;
+      int midIndex = (end + start) / 2; // find middle index
 
-      if ((end - start) > 1) {
+      if ((end - start) > 0) {
         mergeSort(array, start, midIndex);
         mergeSort(array, midIndex, end);
-        //inplace_merge();
+        inplace_merge(start, midIndex, end);
       }
-      
 
   }
 
