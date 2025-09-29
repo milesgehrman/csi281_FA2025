@@ -49,6 +49,16 @@ namespace csi281 {
   // http://www.cplusplus.com/reference/algorithm/inplace_merge/
   template <typename T> void mergeSort(T array[], const int start, const int end) {
     // YOUR CODE HERE
+
+      int midIndex = (end + start) / 2;
+
+      if ((end - start) > 1) {
+        mergeSort(array, start, midIndex);
+        mergeSort(array, midIndex, end);
+        //inplace_merge();
+      }
+      
+
   }
 
   // setup random number generator
