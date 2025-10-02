@@ -51,10 +51,10 @@ namespace csi281 {
 
       int midIndex = (end + start) / 2; // find middle index
 
-      if ((end - start) > 0) {
+      if ((end - start) > 0) { // check if we have hit 1 or 0 items
         mergeSort(array, start, midIndex);
-        mergeSort(array, midIndex, end);
-        inplace_merge(start, midIndex, end);
+        mergeSort(array, midIndex, end); // recursively call divisions until we hit the bottom
+        inplace_merge(start, midIndex, end); // recombine sorted lists
       }
 
   }
@@ -78,6 +78,18 @@ namespace csi281 {
   // the appropriate place
   template <typename T> void quickSort(T array[], const int start, const int end) {
     // YOUR CODE HERE
+    int pivotIndex = start;
+
+      if (end - start > 1)
+      {
+          for (int i = start; i < end; i++)
+          {
+
+          }
+          quickSort(array, start, pivot - 1);
+          quickSort(array, pivot + 1, end);
+      }
+
   }
 
   // Performs an in-place ascending sort of *array*
