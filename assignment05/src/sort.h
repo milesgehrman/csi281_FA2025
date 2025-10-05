@@ -140,7 +140,7 @@ namespace csi281 {
       int midIndex = (end + start) / 2;  // find middle index
       hybridSort(array, start, midIndex);
       hybridSort(array, midIndex, end);      // recursively call divisions until we hit the bottom
-      //inplace_merge(start, midIndex, end);  // recombine sorted lists
+      inplace_merge(start, midIndex, end);  // recombine sorted lists
     } else { // otherwise, run insertion sort
       insertionSort(array, start, end);
     }
