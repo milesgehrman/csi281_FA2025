@@ -32,6 +32,7 @@
 #define sort_hpp
 
 #include <algorithm>  // for swap(), merge()
+#include <iterator> // potential fix for inplace_merge()
 #include <random>
 
 #include "MemoryLeakDetector.h"
@@ -54,7 +55,7 @@ namespace csi281 {
       if ((end - start) > 1) { // check if we have hit 1 or 0 items
         mergeSort(array, start, midIndex);
         mergeSort(array, midIndex, end); // recursively call divisions until we hit the bottom
-        inplace_merge(start, midIndex, end); // recombine sorted lists
+        std::inplace_merge(start, midIndex, end); // recombine sorted lists
       }
 
   }
@@ -139,7 +140,7 @@ namespace csi281 {
       int midIndex = (end + start) / 2;  // find middle index
       hybridSort(array, start, midIndex);
       hybridSort(array, midIndex, end);      // recursively call divisions until we hit the bottom
-      inplace_merge(start, midIndex, end);  // recombine sorted lists
+      //inplace_merge(start, midIndex, end);  // recombine sorted lists
     } else { // otherwise, run insertion sort
       insertionSort(array, start, end);
     }
