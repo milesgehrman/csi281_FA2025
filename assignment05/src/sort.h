@@ -51,7 +51,7 @@ namespace csi281 {
 
       int midIndex = (end + start) / 2; // find middle index
 
-      if ((end - start) > 0) { // check if we have hit 1 or 0 items
+      if ((end - start) > 1) { // check if we have hit 1 or 0 items
         mergeSort(array, start, midIndex);
         mergeSort(array, midIndex, end); // recursively call divisions until we hit the bottom
         inplace_merge(start, midIndex, end); // recombine sorted lists
@@ -77,17 +77,24 @@ namespace csi281 {
   // sort the center of the range, and then move the pivot back to
   // the appropriate place
   template <typename T> void quickSort(T array[], const int start, const int end) {
-    // YOUR CODE HERE
-    int pivotIndex = start;
+    uniform_int_distribution dist(start, end);
+    std::swap(array[start], array[dist(rng)]);  // grab a random element to use for the pivot
+    T pivot = array[start];
 
-      if (end - start > 1)
+      if (end - start > 1) // make sure it's big enough to sort
       {
-          for (int i = start; i < end; i++)
+      int pivotIndex = start + 1; //grab the pivot location
+          for (int i = start + 1; i < end; i++)
           {
-
+              if (array[i] < pivot) // place elements smaller than the pivot before the pivotIndex
+              {
+              std::swap(array[i], array[pivotIndex]);
+              pivotIndex++;
+              }
           }
-          quickSort(array, start, pivot - 1);
-          quickSort(array, pivot + 1, end);
+          std::swap(array[start], array[pivotIndex]); // move the pivot into place
+          quickSort(array, start, pivotIndex - 1); // recursive call on the two smeisorted halves
+          quickSort(array, pivotIndex + 1, end);
       }
 
   }
@@ -105,7 +112,17 @@ namespace csi281 {
   // NOTE: You will need to modify the implementation to only
   // sort part of the array as per the parameters of this version
   template <typename T> void insertionSort(T array[], const int start, const int end) {
-    // YOUR CODE HERE
+
+    for (int i = 1; i < end; i++)  // increases the minimum index we have to sift through
+    {
+      for (int j = i; j > start; j--)  // moves a selected element down the sorted list
+      {
+        if (array[j] < array[j - 1])
+          std::swap(array[j], array[j - 1]);  // swap until the element is sorted
+        else
+          break;  // end the traversal early when we reach the correct spot
+      }
+    }
   }
 
   // Performs an in-place ascending sort of *array*
@@ -117,8 +134,18 @@ namespace csi281 {
   // TIP: You can copy your implementation of merge sort in here, and
   // should be able to call the insertionSort above
   template <typename T> void hybridSort(T array[], const int start, const int end) {
-    // YOUR CODE HERE
-  }
+    
+    if ((end - start) > 10) {  // run merge sort if we have more than 10 items
+      int midIndex = (end + start) / 2;  // find middle index
+      hybridSort(array, start, midIndex);
+      hybridSort(array, midIndex, end);      // recursively call divisions until we hit the bottom
+      inplace_merge(start, midIndex, end);  // recombine sorted lists
+    } else { // otherwise, run insertion sort
+      insertionSort(array, start, end);
+    }
+
+  } 
+
 
 }  // namespace csi281
 
