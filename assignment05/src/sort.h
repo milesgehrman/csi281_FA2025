@@ -32,7 +32,7 @@
 #define sort_hpp
 
 #include <algorithm>  // for swap(), merge()
-#include <iterator> // potential fix for inplace_merge()
+#include <iterator> // potential fix for inplace_merge() (this didn't work)
 #include <random>
 
 #include "MemoryLeakDetector.h"

@@ -38,6 +38,7 @@
 #include "MemoryLeakDetector.h"
 
 #define DEFAULT_CAPACITY 10
+#define CAPACITY_SCALE_FACTOR 2
 #define MAX_LOAD_FACTOR 0.7
 
 using namespace std;
@@ -65,7 +66,18 @@ namespace csi281 {
     // location in the backing store, so you're modifying
     // the original and not a copy
     void put(const K key, const V value) {
-      // YOUR CODE HERE
+     
+        if (getLoadFactor() >= MAX_LOAD_FACTOR) // resize has table if load factor is too high
+        {
+        capacity *= CAPACITY_SCALE_FACTOR;
+        resize(capacity);
+        }
+
+        pair<K,V> data(key, value); // put key and value into a pair for storage
+
+        (backingStore[hashKey(key)]).push_back(data); // appends the data to the appropriate linked list
+
+        // changing the value of an associated key sounds hard so I'll come back to it later.
     }
 
     // Get the item associated with a particular key
