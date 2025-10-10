@@ -111,7 +111,15 @@ namespace csi281 {
     // location in the backing store, so you're modifying
     // the original and not a copy
     void remove(const K &key) {
-      // YOUR CODE HERE
+      optional<V> matchingValue = get(key); // get associated value in order to use the remove function
+      if (bool(matchingValue)) return; // exit the function early if the value wass never there in the first place
+        pair<K, V> target(key, matchingValue.value()); // combine key and associated value into a pair to use in remove()
+      
+
+      (backingStore[hashKey(key)]).remove(target); //remove targeted item
+
+
+
     }
 
     // Calculate and return the load factor
