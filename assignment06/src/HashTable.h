@@ -75,9 +75,15 @@ namespace csi281 {
 
         pair<K,V> data(key, value); // put key and value into a pair for storage
 
-        (backingStore[hashKey(key)]).push_back(data); // appends the data to the appropriate linked list
-
-        // changing the value of an associated key sounds hard so I'll come back to it later.
+        for (auto p : backingStore[hashKey(key)]) { // literally no idea how this loop works but I'm assuming it's a for each loop. I'm just copying it from the print function
+            if (p.first == key)
+            {
+            p.second = value;
+              return;
+          }
+        }  
+        // if we went through the list and found nothing...
+        (backingStore[hashKey(key)]).push_back(data);  // append the new data to the end of the linked list
     }
 
     // Get the item associated with a particular key
@@ -90,7 +96,12 @@ namespace csi281 {
     // location in the backing store, so you're modifying
     // the original and not a copy
     optional<V> get(const K &key) {
-      // YOUR CODE HERE
+      for (auto p : backingStore[hashKey(key)]) {  // iterate through the appropriate bucket
+        if (p.first == key) {
+          return p.second; // return value that matches the key in the list
+        }
+      } 
+      return nullopt; // returns nullopt if we went through the list where it should be and found nothing
     }
 
     // Remove a key and any associated value from the hash table
