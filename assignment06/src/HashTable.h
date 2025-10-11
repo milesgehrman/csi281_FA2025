@@ -38,7 +38,6 @@
 #include "MemoryLeakDetector.h"
 
 #define DEFAULT_CAPACITY 10
-#define CAPACITY_SCALE_FACTOR 2
 #define MAX_LOAD_FACTOR 0.7
 
 using namespace std;
@@ -69,21 +68,25 @@ namespace csi281 {
      
         if (getLoadFactor() >= MAX_LOAD_FACTOR) // resize has table if load factor is too high
         {
-        capacity *= CAPACITY_SCALE_FACTOR;
-        resize(capacity);
+        resize(capacity *= growthFactor);
         }
 
+        list<pair<K, V>> *workingList = &backingStore[(hashKey(key) % capacity)]; // get a reference to the list we are working with
         pair<K,V> data(key, value); // put key and value into a pair for storage
 
-        for (auto p : backingStore[hashKey(key)]) { // literally no idea how this loop works but I'm assuming it's a for each loop. I'm just copying it from the print function
-            if (p.first == key)
+        for (auto p = workingList->begin(); p != workingList->end(); p++) {  
+            
+            if ((*p).first == key)
             {
-            p.second = value;
+            (*p).second = value;
+              debugPrint();
               return;
           }
         }  
         // if we went through the list and found nothing...
-        (backingStore[hashKey(key)]).push_back(data);  // append the new data to the end of the linked list
+        (backingStore[(hashKey(key) % capacity)]).push_back(data);  // append the new data to the end of the linked list
+        count++;
+        debugPrint();
     }
 
     // Get the item associated with a particular key
@@ -96,7 +99,7 @@ namespace csi281 {
     // location in the backing store, so you're modifying
     // the original and not a copy
     optional<V> get(const K &key) {
-      for (auto p : backingStore[hashKey(key)]) {  // iterate through the appropriate bucket
+      for (auto p : backingStore[(hashKey(key) % capacity)]) {  // iterate through the appropriate bucket
         if (p.first == key) {
           return p.second; // return value that matches the key in the list
         }
@@ -116,10 +119,10 @@ namespace csi281 {
         pair<K, V> target(key, matchingValue.value()); // combine key and associated value into a pair to use in remove()
       
 
-      (backingStore[hashKey(key)]).remove(target); //remove targeted item
+      (backingStore[(hashKey(key) % capacity)]).remove(target);  // remove targeted item
 
 
-
+      count--;
     }
 
     // Calculate and return the load factor
@@ -153,7 +156,23 @@ namespace csi281 {
     // new backing store of size cap, or create
     // the backingStore for the first time
     void resize(int cap) {
-      // YOUR CODE HERE
+      // copied and modified from the resize function from assignment 3
+      // don't do anything if we're already correct
+      if (cap == capacity) {
+        return;
+      }
+
+      int numberToCopy = min(cap, count);
+
+      list<pair<K,V>> *destination = new list<pair<K,V>>[cap];
+
+      copy(backingStore, backingStore + numberToCopy, destination);
+      delete[] backingStore;
+      backingStore = destination;
+      capacity = cap;
+      if (capacity < count) {
+        count = capacity;
+      }
     }
 
     // hash anything into an integer appropriate for
