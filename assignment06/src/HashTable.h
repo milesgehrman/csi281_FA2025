@@ -66,11 +66,6 @@ namespace csi281 {
     // the original and not a copy
     void put(const K key, const V value) {
      
-        if (getLoadFactor() >= MAX_LOAD_FACTOR) // resize has table if load factor is too high
-        {
-        resize(capacity *= growthFactor);
-        }
-
         list<pair<K, V>> *workingList = &backingStore[(hashKey(key) % capacity)]; // get a reference to the list we are working with
         pair<K,V> data(key, value); // put key and value into a pair for storage
 
@@ -79,14 +74,19 @@ namespace csi281 {
             if ((*p).first == key)
             {
             (*p).second = value;
-              debugPrint();
+              //debugPrint();
               return;
           }
         }  
         // if we went through the list and found nothing...
         (backingStore[(hashKey(key) % capacity)]).push_back(data);  // append the new data to the end of the linked list
         count++;
-        debugPrint();
+        //debugPrint();
+        if (getLoadFactor() > MAX_LOAD_FACTOR)  // resize has table if load factor is too high
+        {
+          resize(capacity * growthFactor);
+        }
+        
     }
 
     // Get the item associated with a particular key
@@ -115,13 +115,10 @@ namespace csi281 {
     // the original and not a copy
     void remove(const K &key) {
       optional<V> matchingValue = get(key); // get associated value in order to use the remove function
-      if (bool(matchingValue)) return; // exit the function early if the value wass never there in the first place
+      if (!bool(matchingValue)) return; // exit the function early if the value wass never there in the first place
         pair<K, V> target(key, matchingValue.value()); // combine key and associated value into a pair to use in remove()
-      
-
+ 
       (backingStore[(hashKey(key) % capacity)]).remove(target);  // remove targeted item
-
-
       count--;
     }
 
@@ -157,16 +154,26 @@ namespace csi281 {
     // the backingStore for the first time
     void resize(int cap) {
       // copied and modified from the resize function from assignment 3
+      
+      // generate a new backingStore if we haven't already
+        if (backingStore == nullptr)
+        {
+        backingStore = new list<pair<K, V>>[cap];
+          capacity = cap;
+          return;
+      }
+
       // don't do anything if we're already correct
       if (cap == capacity) {
         return;
       }
 
-      int numberToCopy = min(cap, count);
-
       list<pair<K,V>> *destination = new list<pair<K,V>>[cap];
-
-      copy(backingStore, backingStore + numberToCopy, destination);
+      for (int i = 0; i < capacity; i++) {
+        for (auto p = backingStore[i].begin(); p != backingStore[i].end(); p++) {
+          destination[(hashKey((*p).first) % cap)].push_back(*p); // put the element from the old ht in its appropriate place in the new one
+        }
+      }
       delete[] backingStore;
       backingStore = destination;
       capacity = cap;
