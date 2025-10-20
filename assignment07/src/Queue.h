@@ -36,7 +36,19 @@ using namespace std;
 namespace csi281 {
   template <typename T> class Queue : public SequentialCollection<T> {
   public:
-    // YOUR CODE HERE
+    // Put a new element in the collection
+      virtual void push(const T& item) 
+      { 
+          backingStore.push_front(item);
+      }
+    // Remove and return the next element from the collection
+      virtual T pop() 
+      { 
+          backingStore.pop_back();
+        return backingStore.back();
+      }
+    // Access the next element in the collection
+      virtual T& peek() { return backingStore.back();}
   protected:
     using SequentialCollection<T>::backingStore;
   };
