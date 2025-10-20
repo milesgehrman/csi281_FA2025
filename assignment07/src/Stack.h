@@ -49,14 +49,14 @@ namespace csi281 {
             backingStore.pop_back(); //pop it!
           return value;
           }
-          return NULL; // stack is empty return NULL
+          throw runtime_error("Stack is empty!");  // stack is empty throw runtime error
       }
       // Access the next element in the collection
       T& peek()
       { 
           if (!backingStore.empty())
           return backingStore.back();
-          return NULL;
+          throw runtime_error("Stack is empty!");  // stack is empty throw runtime error
       }
   protected:
     using SequentialCollection<T>::backingStore;

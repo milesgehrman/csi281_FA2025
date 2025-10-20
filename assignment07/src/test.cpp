@@ -46,7 +46,6 @@ TEST_CASE("Queue Tests", "[queue]") {
     // Ensure that push(), pop(), and peek()
     // work properly in concert with getCount()
     // and remove()
-    // YOUR CODE HERE
     q1.push(7);
     CHECK(q1.peek() == 7); //make sure push and peek work
     q1.push(13);
@@ -56,16 +55,14 @@ TEST_CASE("Queue Tests", "[queue]") {
     CHECK(q1.pop() == 7);
     CHECK(q1.pop() == 13);
     CHECK(q1.pop() == 17); //make sure popping happens in the correct order
-    CHECK(q1.pop() == NULL); //
-    CHECK(q1.peek() == NULL); // check popping and peeking an empty queue
 
     // check remove()
     q1.push(2);
     q1.push(2);
-    q1.push(2);
+    q1.push(5);
     q1.push(2);
     q1.remove(2);
-    CHECK(q1.peek() == NULL);
+    CHECK(q1.peek() == 5);
   }
 
   SECTION("Queue w/ string tests") {
@@ -73,7 +70,23 @@ TEST_CASE("Queue Tests", "[queue]") {
     // Ensure that push(), pop(), and peek()
     // work properly in concert with getCount()
     // and remove()
-    // YOUR CODE HERE
+    q2.push("Seven");
+    CHECK(q2.peek() == "Seven");  // make sure push and peek work
+    q2.push("Thirteen");
+    q2.push("Seventeen");
+    CHECK(q2.getCount() == 3);
+    CHECK(q2.peek() == "Seven");  // ensure the top of the queue is still the same
+    CHECK(q2.pop() == "Seven");
+    CHECK(q2.pop() == "Thirteen");
+    CHECK(q2.pop() == "Seventeen");  // make sure popping happens in the correct order
+
+    // check remove()
+    q2.push("Two");
+    q2.push("Two");
+    q2.push("Five");
+    q2.push("Two");
+    q2.remove("Two");
+    CHECK(q2.peek() == "Five");
   }
 }
 
@@ -83,7 +96,23 @@ TEST_CASE("Stack Tests", "[stack]") {
     // Ensure that push(), pop(), and peek()
     // work properly in concert with getCount()
     // and remove()
-    // YOUR CODE HERE
+    s1.push(7);
+    CHECK(s1.peek() == 7);  // make sure push and peek work
+    s1.push(13);
+    s1.push(17);
+    CHECK(s1.getCount() == 3);
+    CHECK(s1.peek() == 17);  // ensure the top of the queue is still the same
+    CHECK(s1.pop() == 17);
+    CHECK(s1.pop() == 13);
+    CHECK(s1.pop() == 7);  // make sure popping happens in the correct order
+
+    // check remove()
+    s1.push(2);
+    s1.push(2);
+    s1.push(5);
+    s1.push(2);
+    s1.remove(2);
+    CHECK(s1.peek() == 5);
   }
 
   SECTION("Stack w/ string tests") {
@@ -91,6 +120,22 @@ TEST_CASE("Stack Tests", "[stack]") {
     // Ensure that push(), pop(), and peek()
     // work properly in concert with getCount()
     // and remove()
-    // YOUR CODE HERE
+    s2.push("Seven");
+    CHECK(s2.peek() == "Seven");  // make sure push and peek work
+    s2.push("Thirteen");
+    s2.push("Seventeen");
+    CHECK(s2.getCount() == 3);
+    CHECK(s2.peek() == "Seventeen");  // ensure the top of the queue is still the same
+    CHECK(s2.pop() == "Seventeen");
+    CHECK(s2.pop() == "Thirteen");
+    CHECK(s2.pop() == "Seven");  // make sure popping happens in the correct order
+
+    // check remove()
+    s2.push("Two");
+    s2.push("Two");
+    s2.push("Five");
+    s2.push("Two");
+    s2.remove("Two");
+    CHECK(s2.peek() == "Five");
   }
 }

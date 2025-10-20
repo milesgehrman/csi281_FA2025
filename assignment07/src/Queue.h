@@ -51,13 +51,13 @@ namespace csi281 {
           return value;
           }
  
-          return NULL; //if list is empty return NULL
+          throw runtime_error("Stack is empty!");  // stack is empty throw runtime error
       }
     // Access the next element in the collection
       virtual T& peek() {
         if (!backingStore.empty()) 
         return backingStore.back();
-        return NULL; //return NULL if list is empty
+        throw runtime_error("Stack is empty!");  // stack is empty throw runtime error
       }
   protected:
     using SequentialCollection<T>::backingStore;
