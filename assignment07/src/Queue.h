@@ -44,11 +44,21 @@ namespace csi281 {
     // Remove and return the next element from the collection
       virtual T pop() 
       { 
-          backingStore.pop_back();
-        return backingStore.back();
+          if (!backingStore.empty())
+          {
+          T value = backingStore.back(); //store value to return
+            backingStore.pop_back(); //pop from queue
+          return value;
+          }
+ 
+          return NULL; //if list is empty return NULL
       }
     // Access the next element in the collection
-      virtual T& peek() { return backingStore.back();}
+      virtual T& peek() {
+        if (!backingStore.empty()) 
+        return backingStore.back();
+        return NULL; //return NULL if list is empty
+      }
   protected:
     using SequentialCollection<T>::backingStore;
   };

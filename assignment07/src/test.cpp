@@ -47,6 +47,25 @@ TEST_CASE("Queue Tests", "[queue]") {
     // work properly in concert with getCount()
     // and remove()
     // YOUR CODE HERE
+    q1.push(7);
+    CHECK(q1.peek() == 7); //make sure push and peek work
+    q1.push(13);
+    q1.push(17);
+    CHECK(q1.getCount() == 3);
+    CHECK(q1.peek() == 7); // ensure the top of the queue is still the same
+    CHECK(q1.pop() == 7);
+    CHECK(q1.pop() == 13);
+    CHECK(q1.pop() == 17); //make sure popping happens in the correct order
+    CHECK(q1.pop() == NULL); //
+    CHECK(q1.peek() == NULL); // check popping and peeking an empty queue
+
+    // check remove()
+    q1.push(2);
+    q1.push(2);
+    q1.push(2);
+    q1.push(2);
+    q1.remove(2);
+    CHECK(q1.peek() == NULL);
   }
 
   SECTION("Queue w/ string tests") {

@@ -43,13 +43,20 @@ namespace csi281 {
       // Remove and return the next element from the collection
       T pop() 
       { 
-          backingStore.pop_back();
-          return backingStore.back();
+          if (!backingStore.empty())
+          {
+          T value = backingStore.back(); //store value to return
+            backingStore.pop_back(); //pop it!
+          return value;
+          }
+          return NULL; // stack is empty return NULL
       }
       // Access the next element in the collection
       T& peek()
       { 
+          if (!backingStore.empty())
           return backingStore.back();
+          return NULL;
       }
   protected:
     using SequentialCollection<T>::backingStore;
