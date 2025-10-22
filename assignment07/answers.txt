@@ -1,0 +1,9 @@
+Miles "Spiders" Gehrman
+
+1. Waiting in line for a roller coaster, adding videos to an ordinary playlist on youtube, doing homework(?)
+
+2. Drinking the soda I put in my fridge, adding videos to the "watch later" playlist on youtube, doing homework with questionable efficiency
+
+3. If a piece of software passes all of its test it means that the software works as the developer intended, but may not be 100% functional if a user tries to use the software in a way the developer wasn't expecting.
+
+4. Stacks and queues frequently change size and remove elements (the latter being a more glaring issue when working with queues), which is something linked lists can handle much faster than arrays.
