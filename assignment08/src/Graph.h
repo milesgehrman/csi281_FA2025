@@ -74,7 +74,12 @@ namespace csi281 {
     // Determines whether there is an edge between *from* and *to*
     // if either is not in the graph, return false
     bool edgeExists(const V &from, const V &to) {
-      // YOUR CODE HERE
+
+      if ((adjacencyList.find(from) != adjacencyList.end()) && ((adjacencyList.find(to) != adjacencyList.end())) //check both verticies are in the graph
+        {
+        return neighbors(from).contains(to);  // return whether or not the list of neighbors of from
+        }                                     // contains to (ergo they are neighbors) 
+      return false; //return false if either vertex is missing
     }
 
     using Path = list<V>;
@@ -105,6 +110,30 @@ namespace csi281 {
       // YOUR CODE HERE
       // TIP: Start by defining a frontier and putting start onto it.
       // TIP: Follow the pseudocode from the slides from class
+
+      std::stack frontier;
+      frontier.push(start);
+
+      while (!frontier.empty())
+        {
+
+        V current = frontier.top();
+        frontier.pop();
+
+        if (explored.contains(current)) continue; //skip this entry if we have already searched it
+
+        //explore current node
+        explored.insert(current);
+        if (current == goal) return pathMapToPath(explored, goal); //if we have reached our destination, return the path
+
+        //add next nodes to the stack
+        for (auto i : neighbors(current))
+            {
+              if (!explored.contains(i)) // make sure we're not getting duplicates
+              frontier.push(i)
+            }
+        }
+
     }
 
     // Perform a breadth-first search from *start*, looking for *goal*
