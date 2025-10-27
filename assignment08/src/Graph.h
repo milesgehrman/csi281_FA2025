@@ -34,6 +34,7 @@
 #include <optional>
 #include <queue>
 #include <stack>
+#include <assert.h>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -74,11 +75,10 @@ namespace csi281 {
     // Determines whether there is an edge between *from* and *to*
     // if either is not in the graph, return false
     bool edgeExists(const V &from, const V &to) {
-
-      if ((adjacencyList.find(from) != adjacencyList.end()) && ((adjacencyList.find(to) != adjacencyList.end())) //check both verticies are in the graph
-        {
-        return neighbors(from).contains(to);  // return whether or not the list of neighbors of from
-        }                                     // contains to (ergo they are neighbors) 
+      
+      if (adjacencyList.find(from) != adjacencyList.end()) //check both verticies are in the graph
+          if (adjacencyList.find(to) != adjacencyList.end())
+        return neighbors(from).contains(to);  // return whether or not the list of neighbors of from contains to (ergo they are neighbors) 
       return false; //return false if either vertex is missing
     }
 
@@ -107,12 +107,8 @@ namespace csi281 {
       // the start node came from nowhere, so we mark its parent as itself
       explored[start] = start;
 
-      // YOUR CODE HERE
-      // TIP: Start by defining a frontier and putting start onto it.
-      // TIP: Follow the pseudocode from the slides from class
-
-      std::stack frontier;
-      frontier.push(start);
+      stack<V> frontier;
+      frontier.push(start); //create and initialize the stack
 
       while (!frontier.empty())
         {
@@ -123,17 +119,24 @@ namespace csi281 {
         if (explored.contains(current)) continue; //skip this entry if we have already searched it
 
         //explore current node
-        explored.insert(current);
-        if (current == goal) return pathMapToPath(explored, goal); //if we have reached our destination, return the path
+        explored.emplace(current);
+
+          if (current == goal)
+          {
+          V goalObj = goal;
+            Path result = pathMapToPath(explored, goalObj);  // if we have reached our destination, return the path
+            return result;
+          }
 
         //add next nodes to the stack
         for (auto i : neighbors(current))
             {
-              if (!explored.contains(i)) // make sure we're not getting duplicates
-              frontier.push(i)
+          if (!explored.contains(i))  // make sure we're not getting duplicates
+            frontier.push(i);
             }
         }
 
+      return nullopt; // if we check every entry in the list adnd exit the loop return nullopt
     }
 
     // Perform a breadth-first search from *start*, looking for *goal*
