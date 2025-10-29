@@ -1,0 +1,9 @@
+Miles "Spiders" Gehrman
+
+1. It definitely depends on the shape of the graph and where the start and end nodes are positioned in it. If the two points are close to each other, the bfs is probably going to be faster, but if the nodes are very far apart, the dfs has a chance to be much faster.
+
+2. This depends on the shape of the graph, the worst case scenario for bfs is O(n^2) because it could have to check every node in the graph and the neighbors of each node potentially contain evey other element in the graph.
+
+3. Since facebook friendship is mutual, every edge is bidirectional. This means more than half of the information in an adjacency matrix would be redundant since knowing one half already gives us the other half.
+
+4. It may technically still be on a computer, but the easiest example of a depth first search is going down a rabbit hole of semi-related topics on wikipedia.
