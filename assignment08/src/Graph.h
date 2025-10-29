@@ -107,21 +107,19 @@ namespace csi281 {
       // the start node came from nowhere, so we mark its parent as itself
       explored[start] = start;
 
-      stack<V> frontier;
-      frontier.push(start); //create and initialize the stack
+      stack<pair<V, V>> frontier;
+      frontier.push(make_pair(start, start)); //create and initialize the stack
 
       while (!frontier.empty())
         {
 
-        V current = frontier.top();
+        pair<V, V> current = frontier.top();
         frontier.pop();
 
-        if (explored.contains(current)) continue; //skip this entry if we have already searched it
-
         //explore current node
-        explored.emplace(current);
+        explored.emplace(current.first, current.second);
 
-          if (current == goal)
+          if (current.first == goal)
           {
           V goalObj = goal;
             Path result = pathMapToPath(explored, goalObj);  // if we have reached our destination, return the path
@@ -129,10 +127,10 @@ namespace csi281 {
           }
 
         //add next nodes to the stack
-        for (auto i : neighbors(current))
+        for (auto i : neighbors(current.first))
             {
           if (!explored.contains(i))  // make sure we're not getting duplicates
-            frontier.push(i);
+            frontier.push(make_pair(i, current.first));
             }
         }
 
@@ -148,10 +146,31 @@ namespace csi281 {
       // the start node came from nowhere, so we mark its parent as itself
       explored[start] = start;
 
-      // YOUR CODE HERE
-      // TIP: Start by defining a frontier and putting start onto it.
-      // TIP: Follow the pseudocode from the slides from class
-      // TIP: This should be very similar to dfs
+      queue<pair<V, V>> frontier;
+      frontier.push(make_pair(start, start));  // create and initialize the queue
+
+      while (!frontier.empty()) {
+          //get current node
+        pair<V, V> current = frontier.front();
+        frontier.pop();
+
+        // explore current node
+        explored.emplace(current.first, current.second);
+
+        if (current.first == goal) {
+          V goalObj = goal;
+          Path result = pathMapToPath(explored, goalObj);  // if we have reached our destination, return the path
+          return result;
+        }
+
+        // add next nodes to the queue
+        for (auto i : neighbors(current.first)) {
+          if (!explored.contains(i))  // make sure we're not getting duplicates
+            frontier.push(make_pair(i, current.first));
+        }
+      }
+
+      return nullopt;  // if we check every entry in the list adnd exit the loop return nullopt
     }
 
     // Utility function if you need it
