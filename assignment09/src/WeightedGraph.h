@@ -37,6 +37,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <assert.h>
 
 #include "MemoryLeakDetector.h"
 
@@ -140,11 +141,25 @@ namespace csi281 {
       // use other pseudocode as long as you cite it. Please
       // do not look at other C++ solutions.
 
-      while (!frontier.empty)
+      while (!frontier.empty())
       {
+          //derived in part from my bfs() implementation
+          //get current element
+        pair<W, V> current = frontier.top();
+          frontier.pop();
 
+          // add next nodes to the queue
+          for (auto i : neighborsWithWeights(current.second)) {
+            W accumCost = current.first + i.second;
+
+            if (!weights.contains(i.first) || weights[i.first] > accumCost) // make sure we're not already done with this node
+            {
+              weights[i.first] = accumCost; //track accumulated weight in each vertex
+              frontier.push(make_pair(accumCost, i.first)); //update queue
+              parents[i.first] = current.second; //park parent node
+            }
+          }
       }
-
 
       return make_pair(parents, weights);
     }
