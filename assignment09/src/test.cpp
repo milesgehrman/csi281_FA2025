@@ -179,3 +179,53 @@ TEST_CASE("dijkstra() cityGraph2 Test", "[dijksta]") {
 // reuse cityGraph or cityGraph2. Cite any sources.
 // Make sure that your assertions are fairly comprehensive.
 // Look at the prior two tests as examples.
+
+TEST_CASE("dijkstra() numGraph test", "[dijkstra]")
+{
+  WeightedGraph<int, double> numGraph = WeightedGraph<int, double>();
+  //I just made these with a random number generator
+  numGraph.addEdge(1, 2, 1.1);
+  numGraph.addEdge(1, 5, 24.45);
+  numGraph.addEdge(1, 6, 34.27);
+  numGraph.addEdge(2, 4, 2.39);
+  numGraph.addEdge(2, 5, 28.12);
+  numGraph.addEdge(2, 0, 40);
+  numGraph.addEdge(3, 8, 46.8);
+  numGraph.addEdge(3, 6, 9.73);
+  numGraph.addEdge(3, 4, 0.79);
+  numGraph.addEdge(4, 8, 0.51);
+  numGraph.addEdge(4, 0, 2.15);
+  numGraph.addEdge(5, 9, 2.94);
+  numGraph.addEdge(5, 8, 0.69);
+  numGraph.addEdge(6, 4, 3.88);
+  numGraph.addEdge(7, 5, 5.36);
+  numGraph.addEdge(0, 9, 3.6);
+  numGraph.addEdge(9, 3, 1.1);
+  cout << "-------numGraph-------" << endl;
+  numGraph.debugPrint();
+
+  auto resultPair = numGraph.dijkstra(0);
+  auto parentResults = resultPair.first;
+  auto weightResults = resultPair.second;
+  //distances from 0 correct?
+  CHECK(weightResults[9] == 3.6);
+  CHECK(weightResults[2] == 4.54);
+  CHECK(round(weightResults[1] * 100) == round(5.64 * 100));
+  
+  //check path from 0 to 7
+  auto path = numGraph.pathMapToPath(parentResults, 7);
+  cout << "-------numGraph path-------" << endl;
+  printPath(path);
+  //code borrowed from other tests
+  CHECK(path.size() == 5);
+  CHECK(path.front() == 0);
+  CHECK(path.back() == 7);
+  auto it = path.begin();
+  auto last = path.front();
+  for (unsigned long i = 1; i < path.size(); i++) {
+    it++;
+    auto current = *it;
+    CHECK(numGraph.edgeExists(last, current));
+    last = current;
+  }
+}
