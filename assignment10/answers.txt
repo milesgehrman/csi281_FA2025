@@ -1,0 +1,30 @@
+Miles "Spiders" Gehrman
+
+1. Jarnik's algorithm can easily be reconfigured to find the maximum-spanning-tree by reversing the priority of the edges.
+Instead of prioritizing the edge with the least weight, prioritize the one with the most weight.
+
+2. A minimum-spanning-tree finds the cheapest way to connect all nodes, which just means using the cheapest edge each node can possibly use
+The Traveling Salesman needs to consider visiting all nodes which means it's sometimes more expensive to take an expensive edge to avoid the accumulated cost of a bunch of little edges.
+
+3. 
++---------------+---------+---------+---------------+--------------+--------+
+|               | Seattle | Chicago | San Fransisco | Philadelphia | Dallas |
++---------------+---------+---------+---------------+--------------+--------+
+| Seattle       | false   | true    | true          | false        | false  |
++---------------+---------+---------+---------------+--------------+--------+
+| Chicago       | true    | false   | false         | false        | true   |
++---------------+---------+---------+---------------+--------------+--------+
+| San Fransisco | true    | false   | false         | false        | false  |
++---------------+---------+---------+---------------+--------------+--------+
+| Philadelphia  | false   | false   | false         | false        | false  |
++---------------+---------+---------+---------------+--------------+--------+
+| Dallas        | false   | true    | false         | false        | false  |
++---------------+---------+---------+---------------+--------------+--------+
+
+4. Jarnik's algorithm is O(n log(n)) when using a priority queue but becomes O(n^2) otherwise because the algorithm will need to sift through edges to duplicate vertices to find the optimal one.
+
+5. Jarnik's algorithm is greedy because it only chooses the local best option instead of the actual best option to operate on.
+
+6. Recently in my discrete mathematics class we learned of a way to diagram partially ordered sets. In class we refer to the diagram as a "poset diagram" as opposed to how the textbooks refer to it: "Hasse diagram." 
+The diagram simplifies how we can write partially ordered sets in the class by removing a whole bunch of unecessary information that we can assume by the nature of a partially ordered set.
+We try not to refer to the diagram by its original name because Hasse was a nazi, and a pretty horrible one at that, and is best forgotten.
