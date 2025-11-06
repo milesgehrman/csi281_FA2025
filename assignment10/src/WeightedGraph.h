@@ -37,6 +37,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <assert.h>
 
 #include "MemoryLeakDetector.h"
 
@@ -127,10 +128,34 @@ namespace csi281 {
       // that can be called by calling visit(yourVertexGoesHere)
       // this aligns with the inner function visit() from the pseudo code in the slides
       auto visit = [&](V v) {
-        // YOUR CODE HERE
+        
+        visited.emplace(v); // mark node as visited
+        for (auto i : neighborsWithWeights(v)) //visit neighbors
+        {
+            if (!visited.contains(i.to)) // make sure we haven't already visited this one
+            {
+            frontier.push(i); //put all valid edges into the frontier
+          }
+        }
       };
 
-      // YOUR CODE HERE
+      //bootstrap start
+      visit(start);
+
+      while (!frontier.empty())
+      {
+        // get current node
+        WeightedEdge current = frontier.top();
+        frontier.pop();
+
+        if (!visited.contains(current.to)) 
+        {
+          visit(current.to);
+          solution.push_back(current);
+        }
+
+
+      }
 
       return solution;
     }
