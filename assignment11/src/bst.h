@@ -71,13 +71,58 @@ namespace csi281 {
     // TIP: If the tree is empty, remember that you
     // need to initialize root
     void insert(T key) {
-      // YOUR CODE HERE
+      
+      if (count == 0) 
+      {
+        root = new Node(key, nullptr, nullptr);  // bootstrap tree if empty
+        count++;
+        return;
+      }
+
+      //otherwise we'll find the right spot
+      Node *current = root;
+      while (current != nullptr)  
+      {
+          if (key <= current->key)
+          {
+              if (current->left == nullptr) // if the spot is empty, then it's the right one
+              {
+                current->left = new Node(key, nullptr, nullptr);
+                count++;
+                return;
+              } 
+          else
+          current = current->left; //otherwise keep looking
+        }
+        else //same for the right side
+            {
+              if (current->right == nullptr)  // if the spot is empty, then it's the right one
+              {
+                current->right = new Node(key, nullptr, nullptr);
+                count++;
+                return;
+              } else
+                current = current->right;  // otherwise keep looking
+            }
+      }
+
+
     }
 
     // Do a search through the tree and return
     // whether or not it contains *key*
     bool contains(const T &key) {
-      // YOUR CODE HERE
+      Node *current = root;
+      while (current != nullptr) //go until we hit nullptr
+      {
+        if (current->key == key)
+          return true;
+        else if (key <= current->key)
+          current = current->left;
+        else
+          current = current->right;
+      }
+      return false; // if we hit null, it must not be there
     }
 
     // Helper for inOrderWalk() to call for entire bst
@@ -88,19 +133,34 @@ namespace csi281 {
     // list *accumulated*
     // TIP: See page 288 of Chapter 12 of Introduction to Algorithms
     void inOrderWalk(list<T> &accumulated, Node *current) {
-      // YOUR CODE HERE
+      
+      if (current == nullptr) return; //skip this node if it doesn't exist
+      inOrderWalk(accumulated, current->left);
+      accumulated.push_back(current->key);
+      inOrderWalk(accumulated, current->right);
     }
 
     // Find the minimum key in the tree
     // If the tree is empty, return nullopt
     optional<T> minimum() {
-      // YOUR CODE HERE
+      if (count == 0) return nullopt; //return nullopt if empty
+      Node *current = root;
+      while (current->left != nullptr)
+      {
+        current = current->left; //walk to minimum
+      }
+      return current->key;
     }
 
     // Find the maximum key in the tree
     // If the tree is empty, return nullopt
     optional<T> maximum() {
-      // YOUR CODE HERE
+      if (count == 0) return nullopt;  // return nullopt if empty
+      Node *current = root;
+      while (current->right != nullptr) {
+        current = current->right;  // walk to maximum
+      }
+      return current->key;
     }
 
     // How many nodes are in the tree?
